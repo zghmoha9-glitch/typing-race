@@ -9,6 +9,7 @@ const words_list = ["easy","algorithems" ,"too slow" ,"think fast","quickly","hi
 let counter = 40;
 let input = "";
 let text = "";
+let new_round=true;
 function random(min, max) {
     //generate random number
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -42,7 +43,6 @@ function Pop() {
             }
         }
         counter--;
-        console.log(counter);
     }, 100);
 }
 function word_engine() {
@@ -85,6 +85,7 @@ function keyBoardReady() {
             }, 1500)
             //ui and user input update and disable keyboard
             word.textContent = "you win";
+            new_round=true;
             window.onkeydown = null;
             input = "";
         }
@@ -95,6 +96,7 @@ function keyBoardReady() {
 
 car.onanimationend = function () {
     //loosing state , updating ui and user input, disable the keyboard
+    new_round=true;
     window.onkeydown = null;
     word.textContent = "you loose HAHAHA!";
     car.style.animation = `park 3s 0.5s ease-out both`;
@@ -106,10 +108,14 @@ function startRaceSound() {
     startsound.play();
 };
 //game start
-window.onkeyup = function () {
-    carReady();
-    word_engine();
-    Pop();
+window.onkeyup = function (e) {
+    console.log(e)
+    if (String(e.key)==="Enter" && new_round===true ) {
+        carReady();
+        word_engine();
+        Pop();
+        new_round=false;
+    }
 };
 // the sound of loading
 window.onload = function () {
