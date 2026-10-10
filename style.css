@@ -34,14 +34,12 @@ body div{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 2rem;
     max-height: 50vh;
-    background: linear-gradient(0deg,hsl(0, 100%, 50%),hsl(340, 100%, 50%),hsl(300, 100%, 50%),hsl(350, 100%, 50%),hsl(300, 100%, 50%));
+    background: linear-gradient(to top,hsl(40, 100%, 50%),hsl(0, 100%, 50%));
     background-clip: text;
-}
-#label{
-    color: hsl(340, 80%, 10%);
 }
 #word{
     transition: text 1s ease;
+    text-shadow: 2px 3px 1px hsl(0, 100%, 10%);
 }
 
 #race{
@@ -95,8 +93,8 @@ hr{
 #given_word{
     margin-top: 2rem;
     font-size: 4rem;
-    text-shadow: 2px 2px 1px hsl(350, 100%, 36%),3px 3px 1px hsl(330, 100%, 50%) ,4px 4px 1px hsla(0, 0%, 0%) ,
-    -1px -1px 1px hsla(0, 0%, 100%) ,7px 7px 3px hsla(0, 0%, 10%);
+    text-shadow: 2px 2px 1px hsl(30, 100%, 36%),3px 3px 1px hsl(10, 100%, 50%) ,4px 4px 1px hsla(0, 0%, 0%) ,
+    -1px -1px 1px hsla(0, 0%, 100%) ,7px 7px 3px hsla(0, 0%, 10%) ,-2px -2px 3px hsla(0, 0%, 60%) ;
 }
 @keyframes counter{
     0%{
