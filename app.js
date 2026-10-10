@@ -1,15 +1,16 @@
 const car = document.getElementById("car");
-const label = document.getElementById("label");
 const word = document.getElementById("word");
 const startsound = document.getElementById("startsound");
 const count = document.getElementById("count");
 const given_word = document.getElementById("given_word");
-const words_list = ["hi"]; //["easy","algorithems" ,"too slow" ,"think fast","quickly","hi"];
 const pop = document.getElementById("pop");
+//global varaiables
+const words_list = ["easy","algorithems" ,"too slow" ,"think fast","quickly","hi"];
 let counter = 40;
 let input = "";
 let text = "";
 function random(min, max) {
+    //generate random number
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function Pop() {
@@ -20,15 +21,24 @@ function Pop() {
     count.style.animation = `counter 4s  linear`;
     let counting = setInterval(() => {
         if (counter === 0) {
+            //at the end we stop counting ,removing the pop , starting the car and making the nesacery changes to be ready next time
             clearInterval(counting);
-            counter=41;
-            count.textContent=3;
+            counter = 41;
+            count.textContent = 3;
+            count.style.animation = "none"
+            keyBoardReady();
+            pop.style.zIndex = "-1";
+            car.style.animationPlayState = "running";
         }
+        //updating the counting
         if (counter % 10 === 0) {
             if (counter != 10) {
+                //update the ui
                 count.textContent = counter / 10 - 1;
             } else {
+                //race start
                 count.textContent = "GO !!!"
+                startRaceSound();
             }
         }
         counter--;
@@ -40,52 +50,69 @@ function word_engine() {
     text = words_list[random(0, words_list.length - 1)];
     given_word.textContent = text;
 }
-car.onclick = function () {
+function carReady() {
+    //generate random speed and logging
     let x = random(1, 3);
     console.log(`the random time:${x}`);
+    //adding animation
     car.style.animation = `move ${x}s 0.5s ease-in-out both`;
     car.style.animationPlayState = "paused";
-    word_engine();
-    Pop();
-};
-window.onload = function () {
-    startsound.currenttime = 0;
-    startsound.play();
-};
-function carstart() {
-    count.style.animation = `none`;
+}
+function keyBoardReady() {
+    //listening for keyboard events
     window.onkeydown = function (e) {
+        //logging
         console.log(`your key : ${e.key}`);
+        //knowing which key pressed(we checked if key length is 1 to make sure there is no neta keys)
         if (String(e.key).length <= 1) {
+            //user typed text and view update accordinaly
             input += String(e.key);
             word.textContent = input;
         } else if (String(e.key) == "Backspace") {
+            //normal backspace functionality
             input = input.slice(0, input.length - 1);
             word.textContent = input;
-            console.log(input);
         }
+        //checking wining state
         if (input === text) {
+            //upadate the ui for wining and preparing for next round
             car.style.animationPlayState = "paused";
+            car.style.opacity=0;
+            //car vanish
+            setTimeout(() => {
+                car.style.animation="none"
+                car.style.opacity=1;
+            }, 1500)
+            //ui and user input update and disable keyboard
             word.textContent = "you win";
-            car.style.transform = "translateX(0vw)";
             window.onkeydown = null;
             input = "";
         }
+        //logging
         console.log(`your input: ${input}`);
     };
 }
-car.onanimationstart = function () {
-    startsound.currenttime = 0;
-    startsound.play();
-};
+
 car.onanimationend = function () {
+    //loosing state , updating ui and user input, disable the keyboard
     window.onkeydown = null;
     word.textContent = "you loose HAHAHA!";
     car.style.animation = `park 3s 0.5s ease-out both`;
     input = "";
 };
-count.onanimationend = function () {
-    carstart();
-    pop.style.zIndex = "-1";
-    car.style.animationPlayState = "running";
+function startRaceSound() {
+    //the horn sound
+    startsound.currenttime = 0;
+    startsound.play();
+};
+//game start
+window.onkeyup = function () {
+    carReady();
+    word_engine();
+    Pop();
+};
+// the sound of loading
+window.onload = function () {
+    startsound.currenttime = 0;
+    startsound.play();
 };
