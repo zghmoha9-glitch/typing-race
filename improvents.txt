@@ -1,0 +1,5 @@
+LIST:
+   .add fetch function for words
+   .changing the sounds
+   .maybe diffrent transitions
+   
